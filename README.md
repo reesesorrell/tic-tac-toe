@@ -1,1 +1,1 @@
-# tic-tac-toe
+This project aims to create a fully functional two person tic tac toe game. It will utilize modules and factories to practice using object oriented programming design fundementals in Javascript.
