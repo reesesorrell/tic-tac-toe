@@ -7,13 +7,13 @@ const gameBoard = (() => {
 
     let turnCounter = 0;
 
-    //calls decide turn to get the mark of the player who's turn it is
-    //finds the x and y of the button and calls the mark space on it
+    //calls decide turn to get the player who's turn it is
+    //and finds the x and y of the button
     const makeMove = (button) => {
-        let mark = decideTurn().sign;
+        let player = decideTurn();
         let x = button.classList[0][0];
         let y = button.classList[0][2];
-        markSpace(x, y, mark);
+        markSpace(x, y, player);
     }
 
     //decides who's turn it is by dividing turn counter by 2
@@ -27,12 +27,24 @@ const gameBoard = (() => {
     }
 
     //makes a move if a space is empty given an x, y, and sign to fill the space with
-    const markSpace = (x, y, sign) => {
+    //also calls functions to check for wins or ties
+    const markSpace = (x, y, player) => {
         if (!boardArray[x][y]) {
-            boardArray[x][y] = sign;
-            checkWin();
-            turnCounter++;
+            boardArray[x][y] = player.sign;
             displayController.updateBoard(getBoard());
+
+            //sets a delay so the board can update before a winner is declared
+            setTimeout(() => {if (checkWin()) {
+                alert(player.name + " wins!");
+                resetGame();
+                }}, 200);
+
+            //then checks for a tie
+            setTimeout(() => {if (checkTie()) {
+                alert("It's a tie.")
+                resetGame();
+            }}, 200);
+            turnCounter++;
         }
     }
 
@@ -41,27 +53,49 @@ const gameBoard = (() => {
         for (let i=0; i<=2; i++) {
             if (boardArray[i][0]) {
                 if (boardArray[i][0] == boardArray[i][1] && boardArray[i][0] == boardArray[i][2]) {
-                    console.log('WINNER');
+                    return true;
                 }
             }
             if (boardArray[0][i]) {
                 if (boardArray[0][i] == boardArray[1][i] && boardArray[0][i] == boardArray[2][i]) {
-                    console.log('WINNER');
+                    return true;
                 }
             }
         }
         if (boardArray[1][1]) {
             if (boardArray[0][0] == boardArray[1][1] && boardArray[0][0] == boardArray[2][2]) {
-                console.log('WINNER');
+                return true;
             }
             if (boardArray[0][2] == boardArray[1][1] && boardArray[0][2] == boardArray[2][0]) {
-                console.log('WINNER');
+                return true;
             }
         }
     }
 
+    //loops through and breaks when it finds an empty space
+    const checkTie = () => {
+        tieLoop:
+        for (let row=0; row<=2; row++) {
+            for (let column=0; column<=2; column++) {
+                if (!boardArray[row][column]) {
+                    break tieLoop
+                }
+                if (row==2 && column==2) {
+                    return true;
+                }
+            }
+        }
+    }
+
+    //resets the game board and then updates display
+    const resetGame = () => {
+        boardArray = [[null, null, null, null],[null, null, null],[null, null, null]]
+        turnCounter = 0;
+        displayController.updateBoard(boardArray);
+    }
+
     //return all public module functions and objects
-    return {getBoard, makeMove};
+    return {getBoard, makeMove, resetGame};
 })();
 
 const displayController = (() => {
@@ -87,14 +121,18 @@ const displayController = (() => {
             }
         }
     }
+
     return {updateBoard}
 })();
 
+//creates a player object with a name and a sign for the board
 const playerCreater = (name, sign) => {
     return {name, sign};
 }
 
+//create the two intial players
 const player1 = playerCreater('Reese', 'X');
 const player2 = playerCreater('Kacy', 'O');
 
+//create the first board
 displayController.updateBoard(gameBoard.getBoard())
