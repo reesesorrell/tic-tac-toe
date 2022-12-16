@@ -122,7 +122,46 @@ const displayController = (() => {
         }
     }
 
-    return {updateBoard}
+    //create player form
+    const getPlayers = () => {
+        const playerForm = document.createElement('form');
+        playerForm.classList.add('player-form');
+        createDiv(playerForm, 'player1NameLabel', 'Player 1 Name: ');
+        createInputForm(playerForm, 'player1Name', 'player1NameInput');
+        createDiv(playerForm, 'player1SymbolLabel', 'Player 1 Symbol: ');
+        createInputForm(playerForm, 'player1Symbol', 'player1SymbolInput');
+        createDiv(playerForm, 'player2NameLabel', 'Player 2 Name: ');
+        createInputForm(playerForm, 'player2Name', 'player2NameInput');
+        createDiv(playerForm, 'player2SymbolLabel', 'Player 2 Symbol: ');
+        createInputForm(playerForm, 'player2Symbol', 'player2SymbolInput');
+        createInputButton(playerForm, 'submitButton');
+        document.body.appendChild(playerForm);
+    }
+    
+
+    //basic functions that create divs and inputs
+    const createDiv = (playerForm, divClass, text) => {
+        const newDiv = document.createElement('div');
+        newDiv.classList.add(divClass);
+        newDiv.textContent = text;
+        playerForm.appendChild(newDiv);
+    }
+
+    const createInputForm = (playerForm, value, inputClass) => {
+        const newInput = document.createElement('input');
+        newInput.name = value;
+        newInput.classList.add(inputClass);
+        playerForm.appendChild(newInput);
+    }
+
+    const createInputButton = (playerForm, buttonClass) => {
+        const newButton = document.createElement('input');
+        newButton.type = 'button';
+        newButton.classList.add(buttonClass);
+        playerForm.appendChild(newButton);
+    }
+
+    return {updateBoard, getPlayers}
 })();
 
 //creates a player object with a name and a sign for the board
