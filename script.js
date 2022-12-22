@@ -127,6 +127,7 @@ const displayController = (() => {
         const playerForm = document.createElement('form');
         playerForm.id = 'playerForm'
         playerForm.classList.add('playerForm');
+        createDiv(playerForm, 'playerFormLabel', 'Enter players information below: ')
         createDiv(playerForm, 'player1NameLabel', 'Player 1 Name: ');
         createInputForm(playerForm, 'player1Name', 'player1NameInput');
         createDiv(playerForm, 'player1SymbolLabel', 'Player 1 Symbol: ');
