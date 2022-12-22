@@ -37,9 +37,9 @@ button:hover {
     cursor: pointer;
 }
 
-.clear-button {
+.clear-button,
+.players-button {
     display: block;
-    margin: auto;
     margin-top: 50px;
     border: none;
     background-color: white;
@@ -49,13 +49,44 @@ button:hover {
     border: solid black .5px;
 }
 
-.player-form {
+.options-button-container {
+    display: flex;
+    padding: 0 35vw;
+    justify-content: space-around;
+    align-items: flex-end;
+}
+
+.playerForm {
     position: fixed;
-    left: 22%;
+    left: 28%;
     top: 20%;
-    width: 50vw;
+    width: 40vw;
     height: 40vh;
     border: 1px solid black;
     background-color: whitesmoke;
-    padding: 3vw;
+    padding: 2vw;
+    display: grid;
+    grid-template-columns: 3fr 4fr;
+    padding-bottom: 2vw;
+    justify-items: flex-end;
 }
+
+.playerForm > input[type='text'] {
+    height: 50%;
+    width: 90%;
+    padding-left: 10px;
+    justify-self: flex-start;
+}
+
+.playerForm > div {
+    padding-right: 30px;
+}
+
+.submitButton {
+    grid-column: 1/3;
+    height: 70%;
+    width: 40%;
+    align-self: flex-end;
+    justify-self: center;
+}
+

@@ -125,7 +125,8 @@ const displayController = (() => {
     //create player form
     const getPlayers = () => {
         const playerForm = document.createElement('form');
-        playerForm.classList.add('player-form');
+        playerForm.id = 'playerForm'
+        playerForm.classList.add('playerForm');
         createDiv(playerForm, 'player1NameLabel', 'Player 1 Name: ');
         createInputForm(playerForm, 'player1Name', 'player1NameInput');
         createDiv(playerForm, 'player1SymbolLabel', 'Player 1 Symbol: ');
@@ -134,8 +135,35 @@ const displayController = (() => {
         createInputForm(playerForm, 'player2Name', 'player2NameInput');
         createDiv(playerForm, 'player2SymbolLabel', 'Player 2 Symbol: ');
         createInputForm(playerForm, 'player2Symbol', 'player2SymbolInput');
-        createInputButton(playerForm, 'submitButton');
+        createInputButton(playerForm, 'submitButton', 'Submit');
+        playerForm.addEventListener('submit', handleSubmit);
         document.body.appendChild(playerForm);
+    }
+
+    //handle player form submit
+    const handleSubmit = (event) => {
+        const player1Name = document.getElementById('player1Name').value;
+        const player1Symbol = document.getElementById('player1Symbol').value;
+        const player2Name = document.getElementById('player2Name').value;
+        const player2Symbol = document.getElementById('player2Symbol').value;
+        window.player1 = playerCreater(player1Name, player1Symbol);
+        window.player2 = playerCreater(player2Name, player2Symbol);
+        const playerForm = document.getElementById('playerForm');
+        playerForm.innerHTML = '';
+        playerForm.remove();
+        event.preventDefault();
+    }
+
+    const changePlayers = () => {
+        try {
+            const playerForm = document.getElementById('playerForm');
+            playerForm.innerHTML = '';
+            playerForm.remove();
+        }
+        finally {
+            gameBoard.resetGame();
+            getPlayers();
+        }
     }
     
 
@@ -150,18 +178,23 @@ const displayController = (() => {
     const createInputForm = (playerForm, value, inputClass) => {
         const newInput = document.createElement('input');
         newInput.name = value;
+        newInput.type = 'text';
+        newInput.id = value;
+        newInput.required = true;
         newInput.classList.add(inputClass);
         playerForm.appendChild(newInput);
     }
 
-    const createInputButton = (playerForm, buttonClass) => {
-        const newButton = document.createElement('input');
-        newButton.type = 'button';
+    const createInputButton = (playerForm, buttonClass, text) => {
+        const newButton = document.createElement('button');
+        newButton.type = 'submit';
+        newButton.textContent = text;
         newButton.classList.add(buttonClass);
+        newButton.style.display = 'block';
         playerForm.appendChild(newButton);
     }
 
-    return {updateBoard, getPlayers}
+    return {updateBoard, getPlayers, changePlayers}
 })();
 
 //creates a player object with a name and a sign for the board
@@ -169,9 +202,7 @@ const playerCreater = (name, sign) => {
     return {name, sign};
 }
 
-//create the two intial players
-const player1 = playerCreater('Reese', 'X');
-const player2 = playerCreater('Kacy', 'O');
-
 //create the first board
 displayController.updateBoard(gameBoard.getBoard())
+
+displayController.getPlayers();
