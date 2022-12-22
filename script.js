@@ -35,7 +35,7 @@ const gameBoard = (() => {
 
             //sets a delay so the board can update before a winner is declared
             setTimeout(() => {if (checkWin()) {
-                alert(player.name + " wins!");
+                displayController.displayWin(player);
                 resetGame();
                 }}, 200);
 
@@ -154,6 +154,7 @@ const displayController = (() => {
         event.preventDefault();
     }
 
+    //reset board and make new player form
     const changePlayers = () => {
         try {
             const playerForm = document.getElementById('playerForm');
@@ -166,35 +167,65 @@ const displayController = (() => {
         }
     }
     
+    //create player win window with a button that deletes it
+    const displayWin = (player) => {
+        const winWindow = createDiv(document.body, 'winWindow', '');
+        winWindow.id = 'winWindow';
+        createDiv(winWindow, 'winMessage', player.name + ' wins!');
+        createDiv(winWindow, 'playAgainMessage', 'Click below to play again:');
+        const container = createDiv(winWindow, 'playAgainButtonContainer', '');
+        createButton(container, 'samePlayersButton', 'Same Players', destroyWinWindow);
+        createButton(container, 'newPlayersButton', 'New Players', makeNewPlayers);
+    }
+
+    const destroyWinWindow = () => {
+        document.getElementById('winWindow');
+        winWindow.innerHTML = ''
+        winWindow.remove();
+    }
+
+    const makeNewPlayers = () => {
+        destroyWinWindow();
+        getPlayers();
+    }
 
     //basic functions that create divs and inputs
-    const createDiv = (playerForm, divClass, text) => {
+    const createDiv = (parentForm, divClass, text) => {
         const newDiv = document.createElement('div');
         newDiv.classList.add(divClass);
         newDiv.textContent = text;
-        playerForm.appendChild(newDiv);
+        parentForm.appendChild(newDiv);
+        return newDiv;
     }
 
-    const createInputForm = (playerForm, value, inputClass) => {
+    const createInputForm = (parentForm, value, inputClass) => {
         const newInput = document.createElement('input');
         newInput.name = value;
         newInput.type = 'text';
         newInput.id = value;
         newInput.required = true;
         newInput.classList.add(inputClass);
-        playerForm.appendChild(newInput);
+        parentForm.appendChild(newInput);
     }
 
-    const createInputButton = (playerForm, buttonClass, text) => {
+    const createInputButton = (parentForm, buttonClass, text) => {
         const newButton = document.createElement('button');
         newButton.type = 'submit';
         newButton.textContent = text;
         newButton.classList.add(buttonClass);
         newButton.style.display = 'block';
-        playerForm.appendChild(newButton);
+        parentForm.appendChild(newButton);
     }
 
-    return {updateBoard, getPlayers, changePlayers}
+    const createButton = (parentForm, buttonClass, text, onClick) => {
+        const newButton = document.createElement('button');
+        newButton.textContent = text;
+        newButton.classList.add(buttonClass);
+        newButton.onclick = onClick;
+        parentForm.appendChild(newButton);
+    }
+
+    return {updateBoard, getPlayers, changePlayers, displayWin}
 })();
 
 //creates a player object with a name and a sign for the board
