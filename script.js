@@ -129,13 +129,13 @@ const displayController = (() => {
         playerForm.classList.add('playerForm');
         createDiv(playerForm, 'playerFormLabel', 'Enter players information below: ')
         createDiv(playerForm, 'player1NameLabel', 'Player 1 Name: ');
-        createInputForm(playerForm, 'player1Name', 'player1NameInput');
+        createInputForm(playerForm, 'player1Name', 'player1NameInput', 20);
         createDiv(playerForm, 'player1SymbolLabel', 'Player 1 Symbol: ');
-        createInputForm(playerForm, 'player1Symbol', 'player1SymbolInput');
+        createInputForm(playerForm, 'player1Symbol', 'player1SymbolInput', 1);
         createDiv(playerForm, 'player2NameLabel', 'Player 2 Name: ');
-        createInputForm(playerForm, 'player2Name', 'player2NameInput');
+        createInputForm(playerForm, 'player2Name', 'player2NameInput', 20);
         createDiv(playerForm, 'player2SymbolLabel', 'Player 2 Symbol: ');
-        createInputForm(playerForm, 'player2Symbol', 'player2SymbolInput');
+        createInputForm(playerForm, 'player2Symbol', 'player2SymbolInput', 1);
         createInputButton(playerForm, 'submitButton', 'Submit');
         playerForm.addEventListener('submit', handleSubmit);
         document.body.appendChild(playerForm);
@@ -199,14 +199,16 @@ const displayController = (() => {
         return newDiv;
     }
 
-    const createInputForm = (parentForm, value, inputClass) => {
+    const createInputForm = (parentForm, value, inputClass, maxLength) => {
         const newInput = document.createElement('input');
         newInput.name = value;
         newInput.type = 'text';
         newInput.id = value;
         newInput.required = true;
+        newInput.maxLength = maxLength;
         newInput.classList.add(inputClass);
         parentForm.appendChild(newInput);
+        return newInput;
     }
 
     const createInputButton = (parentForm, buttonClass, text) => {
