@@ -41,7 +41,7 @@ const gameBoard = (() => {
 
             //then checks for a tie
             setTimeout(() => {if (checkTie()) {
-                alert("It's a tie.")
+                displayController.displayTie();
                 resetGame();
             }}, 200);
             turnCounter++;
@@ -179,6 +179,16 @@ const displayController = (() => {
         createButton(container, 'new-players-button', 'New Players', makeNewPlayers);
     }
 
+    const displayTie = () => {
+        const winWindow = createDiv(document.body, 'win-window', '');
+        winWindow.id = 'win-window';
+        createDiv(winWindow, 'win-window__message', "It's a tie!");
+        createDiv(winWindow, 'play-again-message', 'Click below to play again:');
+        const container = createDiv(winWindow, 'play-again-button-container', '');
+        createButton(container, 'same-players-button', 'Same Players', destroyWinWindow);
+        createButton(container, 'new-players-button', 'New Players', makeNewPlayers);
+    }
+
     const destroyWinWindow = () => {
         const winWindow = document.getElementById('win-window');
         winWindow.innerHTML = ''
@@ -228,7 +238,7 @@ const displayController = (() => {
         parentForm.appendChild(newButton);
     }
 
-    return {updateBoard, getPlayers, changePlayers, displayWin}
+    return {updateBoard, getPlayers, changePlayers, displayWin, displayTie}
 })();
 
 //creates a player object with a name and a sign for the board
