@@ -125,31 +125,31 @@ const displayController = (() => {
     //create player form
     const getPlayers = () => {
         const playerForm = document.createElement('form');
-        playerForm.id = 'playerForm'
-        playerForm.classList.add('playerForm');
-        createDiv(playerForm, 'playerFormLabel', 'Enter players information below: ')
-        createDiv(playerForm, 'player1NameLabel', 'Player 1 Name: ');
-        createInputForm(playerForm, 'player1Name', 'player1NameInput', 20);
-        createDiv(playerForm, 'player1SymbolLabel', 'Player 1 Symbol: ');
-        createInputForm(playerForm, 'player1Symbol', 'player1SymbolInput', 1);
-        createDiv(playerForm, 'player2NameLabel', 'Player 2 Name: ');
-        createInputForm(playerForm, 'player2Name', 'player2NameInput', 20);
-        createDiv(playerForm, 'player2SymbolLabel', 'Player 2 Symbol: ');
-        createInputForm(playerForm, 'player2Symbol', 'player2SymbolInput', 1);
-        createInputButton(playerForm, 'submitButton', 'Submit');
+        playerForm.id = 'player-form'
+        playerForm.classList.add('player-form');
+        createDiv(playerForm, 'player-form__label', 'Enter players information below: ')
+        createDiv(playerForm, 'player-1-name-label', 'Player 1 Name: ');
+        createInputForm(playerForm, 'player-1-name', 'player-1-name-input', 20);
+        createDiv(playerForm, 'player-1-symbol-label', 'Player 1 Symbol: ');
+        createInputForm(playerForm, 'player-1-symbol', 'player-1-symbol-input', 1);
+        createDiv(playerForm, 'player-2-name-label', 'Player 2 Name: ');
+        createInputForm(playerForm, 'player-2-name', 'player-2-name-input', 20);
+        createDiv(playerForm, 'player-2-symbol-label', 'Player 2 Symbol: ');
+        createInputForm(playerForm, 'player-2-symbol', 'player-2-symbol-input', 1);
+        createInputButton(playerForm, 'submit-button', 'Submit');
         playerForm.addEventListener('submit', handleSubmit);
         document.body.appendChild(playerForm);
     }
 
     //handle player form submit
     const handleSubmit = (event) => {
-        const player1Name = document.getElementById('player1Name').value;
-        const player1Symbol = document.getElementById('player1Symbol').value;
-        const player2Name = document.getElementById('player2Name').value;
-        const player2Symbol = document.getElementById('player2Symbol').value;
+        const player1Name = document.getElementById('player-1-name').value;
+        const player1Symbol = document.getElementById('player-1-symbol').value;
+        const player2Name = document.getElementById('player-2-name').value;
+        const player2Symbol = document.getElementById('player-2-symbol').value;
         window.player1 = playerCreater(player1Name, player1Symbol);
         window.player2 = playerCreater(player2Name, player2Symbol);
-        const playerForm = document.getElementById('playerForm');
+        const playerForm = document.getElementById('player-form');
         playerForm.innerHTML = '';
         playerForm.remove();
         event.preventDefault();
@@ -158,7 +158,7 @@ const displayController = (() => {
     //reset board and make new player form
     const changePlayers = () => {
         try {
-            const playerForm = document.getElementById('playerForm');
+            const playerForm = document.getElementById('player-form');
             playerForm.innerHTML = '';
             playerForm.remove();
         }
@@ -170,17 +170,17 @@ const displayController = (() => {
     
     //create player win window with a button that deletes it
     const displayWin = (player) => {
-        const winWindow = createDiv(document.body, 'winWindow', '');
-        winWindow.id = 'winWindow';
-        createDiv(winWindow, 'winMessage', player.name + ' wins!');
-        createDiv(winWindow, 'playAgainMessage', 'Click below to play again:');
-        const container = createDiv(winWindow, 'playAgainButtonContainer', '');
-        createButton(container, 'samePlayersButton', 'Same Players', destroyWinWindow);
-        createButton(container, 'newPlayersButton', 'New Players', makeNewPlayers);
+        const winWindow = createDiv(document.body, 'win-window', '');
+        winWindow.id = 'win-window';
+        createDiv(winWindow, 'win-window__message', player.name + ' wins!');
+        createDiv(winWindow, 'play-again-message', 'Click below to play again:');
+        const container = createDiv(winWindow, 'play-again-button-container', '');
+        createButton(container, 'same-players-button', 'Same Players', destroyWinWindow);
+        createButton(container, 'new-players-button', 'New Players', makeNewPlayers);
     }
 
     const destroyWinWindow = () => {
-        document.getElementById('winWindow');
+        const winWindow = document.getElementById('win-window');
         winWindow.innerHTML = ''
         winWindow.remove();
     }
